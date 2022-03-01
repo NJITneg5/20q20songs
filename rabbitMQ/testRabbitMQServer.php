@@ -67,7 +67,9 @@ function doRegistration($email, $username, $password){
 	}
 
 	//insert data to db
-	$stmt = "insert into Users (email, username, password, friend_code) values ($email, $username, $password, $friend_code);"
+	$stmt = mysqli_prepare("insert into Users (email, username, password, friend_code) values (:email, :username, :password, :friend_code);");
+	mysqli_bind_param($stmt, "sssi", $email, $username, $password, $newcode);
+	mysqli_execute($stmt);
 }
 
 function requestProcessor($request)
@@ -80,10 +82,12 @@ function requestProcessor($request)
   }
   switch ($request['type'])
   {
-    case "login":
-      return doLogin($request['username'],$request['password'],$request['email'		]);
-    case "validate_session":
-      return doValidate($request['sessionId']);
+ 	case "login":
+	    return doLogin($request['email'],$request['username'],$request['password']);
+	case "register":
+		return doRegistration($request['email'],$request['username'],$request['password']);
+	case "validate_session":
+      		return doValidate($request['sessionId']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed on Nate's VM");
 }

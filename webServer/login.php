@@ -1,3 +1,5 @@
+<?php require_once("/home/it490/git/20q20songs/rabbitMQ/testRabbitMQClient.php" ?>
+
 <html lang="en">
 <head>
     <title>Bootstrap 5 Example</title>
@@ -167,7 +169,7 @@
 
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
         if($isValid){ //All DB query statements should go within these brackets
-
+		login($email, $user, $password);
         }
         else{
             echo("There was a validation issue"); //TODO This can be updated to use Bootstrap

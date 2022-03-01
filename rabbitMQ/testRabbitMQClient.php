@@ -14,20 +14,34 @@ else
   $msg = "This is a test message from Nick or Anthony going through Bryon's Queue to Nate's Server.";
 }
 
-function login($username, $password, $username){
+function login($email, $username, $password){
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
 	$request = array();
 
 	$request['type'] = "login";
+	$request['email'] = $email;
 	$request['username'] = $username;
 	$request['password'] = $password;
-	$request['email'] = $email;
-
 	$response = $client->send_request($request);
 	//$response = $client->publish($request);
 
 	return $response;
+}
+
+function register($email, $username, $password){
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+
+        $request = array();
+
+	$request['type'] = "register";
+	$request['email'] = $email;
+        $request['username'] = $username;
+        $request['password'] = $password;
+        $response = $client->send_request($request);
+        //$response = $client->publish($request);
+
+        return $response;
 }
 //echo " Group client received response: ".PHP_EOL;
 //print_r($response);

@@ -1,3 +1,5 @@
+<?php require_once("/home/it490/git/20q20songs/rabbtiMQ/testRabbitMQClient.php" ?>
+
 <?php
     if(isset($_POST["register"])){
         $email = null;
@@ -38,7 +40,8 @@
         if($isValid){
             $hash = password_hash($password, PASSWORD_BCRYPT);
 
-            //TODO Use RabbitMQ to insert the new user data into the DB
+	    //TODO Use RabbitMQ to insert the new user data into the DB
+	    register($email, $username, $hash);
         }
     }
 ?>
