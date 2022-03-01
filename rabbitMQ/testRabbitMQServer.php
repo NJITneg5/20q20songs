@@ -4,17 +4,24 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-function doLogin($username,$password,$email)
+function doLogin($email,$username,$password)
 {
 	global $mydb
 
 	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
-	$query = "select password from Users where email='$email';";
-	$preResult= $mydb->query($query)
-	$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
-	$finalResult= $result['password'];
-
+	if ($username == null){
+		$query = "select password from Users where email='$email';";
+		$preResult= $mydb->query($query)
+		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		$finalResult= $result['password'];
+	}
+	elseif ($username != null){
+		$query = "select password from Users where username='$username';";
+                $preResult= $mydb->query($query)
+                $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+                $finalResult= $result['password'];
+	}
 	//check if result returns anything
 	if ($preresult->num_rows == 0){
 		echo "Null Result\n";
@@ -39,7 +46,28 @@ function doRegistration($email, $username, $password){
 
 	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
+	//generate friend code
+	$uniquenum = false;	//check to make sure code is available
+	$uniquecount = 0;	//only run unique check 10 times
+	while (!$uniquenum && $uniquecount < 10){	//loop to generate code
+		$newcode = rand(000000, 999999);
+		$query = "select friend_code from Users where friend_code = '$newcode';";
+		$preResult = $mydb->query($query);
+		$result = mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		$finalResult = $result['friend_code'];
+		if (empty($finalResult)){
+			$uniquenum = true;
+			break;
+		}
+		$uniquecount++;
+	}
+	if ($uniquecount == 10 && !$uniquenum){
+		echo "There was an error making the account, please try again";
+		return false;
+	}
 
+	//insert data to db
+	$stmt = "insert into Users (email, username, password, friend_code) values ($email, $username, $password, $friend_code);"
 }
 
 function requestProcessor($request)
