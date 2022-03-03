@@ -3,7 +3,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-
+/*
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 if (isset($argv[1]))
 {
@@ -13,7 +13,7 @@ else
 {
   $msg = "This is a test message from Nick or Anthony going through Bryon's Queue to Nate's Server.";
 }
-
+ */
 /*function login($email, $username, $password){
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
@@ -29,9 +29,9 @@ else
 	return $response;
 }*/
 
-/*function register($email, $username, $password){
+function register($email, $username, $password){
 	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
-
+	echo "hello world";
         $request = array();
 
 	$request['type'] = "register";

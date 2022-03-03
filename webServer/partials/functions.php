@@ -19,7 +19,7 @@ function login($email, $username, $password){
 }
 
 function register($email, $username, $password){
-    $client = new rabbitMQClient("authenticationRabbitMQ.ini","authentication");
+    $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
     $request = array();
 
