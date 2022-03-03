@@ -1,4 +1,4 @@
-<?php require_once("/home/it490/git/20q20songs/rabbtiMQ/testRabbitMQClient.php" ?>
+<?php require_once("partials/functions.php") ?>
 
 <?php
     if(isset($_POST["register"])){
