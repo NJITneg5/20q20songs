@@ -1,4 +1,4 @@
-<?php require_once("../rabbitMQ/testRabbitMQClient.php" ?>
+<?php require_once(__DIR__. "../rabbitMQ/testRabbitMQClient.php"); ?>
 
 <?php
     if(isset($_POST["register"])){
@@ -41,7 +41,7 @@
             $hash = password_hash($password, PASSWORD_BCRYPT);
 
 	    //TODO Use RabbitMQ to insert the new user data into the DB
-	    echo "<h2>hello world</h2>";
+	    //echo "<h2>hello world</h2>";
 	    register($email, $username, $hash);
         }
     }
