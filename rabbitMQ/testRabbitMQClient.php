@@ -42,7 +42,7 @@ function register($email, $username, $password){
         //$response = $client->publish($request);
 
         return $response;
-}*/
+}
 //echo " Group client received response: ".PHP_EOL;
 //print_r($response);
 //echo "\n\n";
