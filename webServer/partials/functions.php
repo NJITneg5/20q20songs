@@ -18,8 +18,8 @@ function login($email, $username, $password){
     return $response;
 }
 
-function register($email, $username, $password){
-    $client = new rabbitMQClient("authenticationRabbitMQ.ini","authentication");
+/*function register($email, $username, $password){
+    $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
     $request = array();
 
@@ -31,4 +31,4 @@ function register($email, $username, $password){
     //$response = $client->publish($request);
 
     return $response;
-}
+}*/

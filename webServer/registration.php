@@ -1,4 +1,4 @@
-<?php require_once("partials/functions.php") ?>
+<?php require_once('../rabbitMQ/testRabbitMQClient.php'); ?>
 
 <?php
     if(isset($_POST["register"])){
@@ -37,10 +37,12 @@
             $isValid = false;
         }
 
-        if($isValid){
-            $hash = password_hash($password, PASSWORD_BCRYPT);
+        
+	if($isValid){       
+		$hash = password_hash($password, PASSWORD_BCRYPT);
 
 	    //TODO Use RabbitMQ to insert the new user data into the DB
+	    
 	    register($email, $username, $hash);
         }
     }
@@ -153,8 +155,10 @@
         }
     </style>
 </head>
-<body onload = "onPageLoad()" class = "bg-dark text-white-50">
+<body>
 <div class="container-fluid p-5 bg-success text-white text-center">
+
+ 
     <h1>20 Questions 20 Songs</h1>
     <h3>Registration</h3>
 </div>
