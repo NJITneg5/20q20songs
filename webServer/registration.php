@@ -1,4 +1,4 @@
-<?php require_once(__DIR__. "../rabbitMQ/testRabbitMQClient.php"); ?>
+<?php require_once('../rabbitMQ/testRabbitMQClient.php'); ?>
 
 <?php
     if(isset($_POST["register"])){
