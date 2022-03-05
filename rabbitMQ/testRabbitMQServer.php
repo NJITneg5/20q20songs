@@ -26,7 +26,7 @@ function doLogin($email,$username,$password)
                 $finalResult= $result['password'];
 	}
 	//check if result returns anything
-	if ($preresult->num_rows == 0){
+	if ($preResult->num_rows == 0){
 		echo "Null Result\n";
 		return false;
 	}
@@ -70,10 +70,11 @@ function doRegistration($email, $username, $password){
 	}
 
 	//insert data to db
-	$stmt = mysqli_prepare("insert into Users values (email, username, password, friend_code)");
-	mysqli_bind_param($stmt, "sssi", $email, $username, $password, $newcode);
-	mysqli_execute($stmt);
-	echo "Successfully created account\n";
+    $stmt = mysqli_prepare($mydb, "INSERT INTO Users (email, username, password, friend_code) VALUES (?, ?, ?, ?)");
+	$stmt->bind_param("sssi", $email, $username, $password, $newcode);
+    $stmt->execute();
+
+    echo "Successfully created account\n";
 	return true;
 }
 

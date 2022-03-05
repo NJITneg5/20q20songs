@@ -43,6 +43,7 @@
 	    //TODO Use RabbitMQ to insert the new user data into the DB
 	    //echo "<h2>hello world</h2>";
 	    register($email, $username, $hash);
+        die(header("Location:registration.php"));
         }
     }
 ?>
