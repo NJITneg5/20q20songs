@@ -8,7 +8,7 @@ function doLogin($email,$username,$password)
 {
 	global $mydb
 
-	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+	$server = new rabbitMQServer("authenticationRabbitMQ.ini","authentication");
 
 	if ($username == null){
 		$query = "select password from Users where email='$email';";
@@ -23,7 +23,7 @@ function doLogin($email,$username,$password)
                 $finalResult= $result['password'];
 	}
 	//check if result returns anything
-	if ($preresult->num_rows == 0){
+	if ($preResult->num_rows == 0){
 		echo "Null Result\n";
 		return false;
 	}
@@ -44,7 +44,7 @@ function doLogin($email,$username,$password)
 function doRegistration($email, $username, $password){
 	global $mydb;
 
-	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+    $server = new rabbitMQServer("authenticationRabbitMQ.ini","authentication");
 
 	//generate friend code
 	$uniquenum = false;	//check to make sure code is available
@@ -67,9 +67,12 @@ function doRegistration($email, $username, $password){
 	}
 
 	//insert data to db
-	$stmt = mysqli_prepare("insert into Users (email, username, password, friend_code) values (:email, :username, :password, :friend_code);");
-	mysqli_bind_param($stmt, "sssi", $email, $username, $password, $newcode);
-	mysqli_execute($stmt);
+    $stmt = mysqli_prepare($mydb, "INSERT INTO Users (email, username, password, friend_code) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $email, $username, $password, $newcode);
+    $stmt->execute();
+
+    echo "Successfully created account\n";
+    return true;
 }
 
 function requestProcessor($request)
@@ -99,6 +102,6 @@ $server->process_requests('requestProcessor');
 echo "GroupTestRabbitMQServer END".PHP_EOL;
 exit();
 
-$mydb= new mysqli('localhost','testUser','12345','testdb');
+$mydb= new mysqli('localhost','it490','20q20songs','it490');
 ?>
 
