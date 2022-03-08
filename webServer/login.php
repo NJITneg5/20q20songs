@@ -170,9 +170,11 @@
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
         if($isValid){ //All DB query statements should go within these brackets
 		    login($email, $user, $password);
+            logging("Webserver/Login.php", "Successful login: " . $user . ", " . $email);
         }
         else{
-            echo("There was a validation issue"); //TODO This can be updated to use Bootstrap
+            logging("WebServer/login.php", "Could not log user in.");
+            //echo("There was a validation issue"); //TODO This can be updated to use Bootstrap
         }
     }
 ?>

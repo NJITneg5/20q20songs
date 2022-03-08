@@ -32,3 +32,19 @@ function register($email, $username, $password){
 
     return $response;
 }
+
+function logging($origin, $msg){
+    /**
+     * @param string $origin should be server/file
+     * @param string $msg should be the error message. Function should automatically append a time stamp
+     */
+    $client = new rabbitMQClient("loggingRabbitMQ.ini","logging");
+
+    $request['type'] = "logging";
+    $request['origin'] = $origin;
+    $sentMsg = (string)time() . " : " . $msg;
+    $request['message'] = $sentMsg;
+    $response = $client->send_request($request);
+
+    return $response;
+}
