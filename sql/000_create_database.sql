@@ -1,3 +1,3 @@
-CREATE DATABASE testdb;
-CREATE USER 'testUser'@'localhost' IDENTIFIED BY '12345';
-GRANT ALL PRIVILEGES ON testdb.* TO 'testUser'@'localhost';
+CREATE DATABASE it490;
+CREATE USER 'it490'@'localhost' IDENTIFIED BY '20q20songs';
+GRANT ALL PRIVILEGES ON it490.* TO 'it490'@'localhost';
