@@ -30,6 +30,7 @@
         }
         else{
             echo("Passwords don't match");//TODO use Bootstrap's warnings
+            logging("WebServer/registration.php","User input password incorrectly");
             $isValid = false;
         }
 
@@ -42,7 +43,7 @@
 
 	    //TODO Use RabbitMQ to insert the new user data into the DB
 	    register($email, $username, $hash);
-        die(header("Location:registration.php"));
+        logging("Webserver/registration.php", "Users successfully registered, " . $email . " " . $username);
         }
     }
 ?>
