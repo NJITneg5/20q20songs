@@ -4,21 +4,24 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+global $mydb;
+$mydb= new mysqli('localhost','it490','20q20songs','it490');
+
 function doLogin($email,$username,$password)
 {
-	global $mydb
+	global $mydb;
 
-	$server = new rabbitMQServer("authenticationRabbitMQ.ini","authentication");
+	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 	if ($username == null){
 		$query = "select password from Users where email='$email';";
-		$preResult= $mydb->query($query)
+		$preResult= $mydb->query($query);
 		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
 		$finalResult= $result['password'];
 	}
 	elseif ($username != null){
 		$query = "select password from Users where username='$username';";
-                $preResult= $mydb->query($query)
+                $preResult= $mydb->query($query);
                 $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
                 $finalResult= $result['password'];
 	}
@@ -37,14 +40,14 @@ function doLogin($email,$username,$password)
 	//return false in all other instances
 	else{
 		echo "Failed Result\n";
-		return false
+		return false;
 	}
 }
 
 function doRegistration($email, $username, $password){
 	global $mydb;
 
-    $server = new rabbitMQServer("authenticationRabbitMQ.ini","authentication");
+    $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 	//generate friend code
 	$uniquenum = false;	//check to make sure code is available
@@ -77,8 +80,8 @@ function doRegistration($email, $username, $password){
 
 function requestProcessor($request)
 {
-  echo "received request".PHP_EOL;
-  var_dump($request);
+  //echo "received request".PHP_EOL;
+  //var_dump($request);
   if(!isset($request['type']))
   {
     return "ERROR: unsupported message type";
@@ -102,6 +105,6 @@ $server->process_requests('requestProcessor');
 echo "GroupTestRabbitMQServer END".PHP_EOL;
 exit();
 
-$mydb= new mysqli('localhost','it490','20q20songs','it490');
+//$mydb= new mysqli('localhost','it490','20q20songs','it490');
 ?>
 
