@@ -19,7 +19,7 @@ function doLogin($email,$username,$password)
 		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
 		$finalResult= $result['password'];
 	}
-	elseif ($username != null){
+	elseif ($email == null){
 		$query = "select password from Users where username='$username';";
                 $preResult= $mydb->query($query);
                 $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
@@ -30,10 +30,15 @@ function doLogin($email,$username,$password)
 		echo "Null Result\n";
 		return false;
 	}
-
+	
 	//validate user info
+	/*
 	if ($finalResult == $password){
 		echo "Successful Reseult\n";
+		return true;
+	}*/
+	if (password_verify($password, $finalResult)){
+		echo "Successful Result\n";
 		return true;
 	}
 
@@ -71,11 +76,12 @@ function doRegistration($email, $username, $password){
 
 	//insert data to db
     $stmt = mysqli_prepare($mydb, "INSERT INTO Users (email, username, password, friend_code) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $email, $username, $password, $newcode);
+	$stmt->bind_param("sssi", $email, $username, $password, $newcode);
     $stmt->execute();
 
     echo "Successfully created account\n";
-    return true;
+	return true;
+
 }
 
 function requestProcessor($request)
