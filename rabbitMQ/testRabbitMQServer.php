@@ -5,7 +5,7 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 global $mydb;
-$mydb= new mysqli('localhost','testUser','12345','testdb');
+$mydb= new mysqli('localhost','it490','20q20songs','it490');
 
 function doLogin($email,$username,$password)
 {
@@ -19,7 +19,7 @@ function doLogin($email,$username,$password)
 		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
 		$finalResult= $result['password'];
 	}
-	elseif ($username != null){
+	elseif ($email == null){
 		$query = "select password from Users where username='$username';";
                 $preResult= $mydb->query($query);
                 $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
@@ -30,10 +30,15 @@ function doLogin($email,$username,$password)
 		echo "Null Result\n";
 		return false;
 	}
-
+	
 	//validate user info
+	/*
 	if ($finalResult == $password){
 		echo "Successful Reseult\n";
+		return true;
+	}*/
+	if (password_verify($password, $finalResult)){
+		echo "Successful Result\n";
 		return true;
 	}
 
