@@ -3,8 +3,9 @@ require_once('../../rabbitMQ/path.inc');
 require_once('../../rabbitMQ/get_host_info.inc');
 require_once('../../rabbitMQ/rabbitMQLib.inc');
 
-function login($email, $username, $password){
-    $client = new rabbitMQClient("authenticationRabbitMQ.ini","authentication");
+function login($email, $username, $password)
+{
+    $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
     $request = array();
 
@@ -19,16 +20,33 @@ function login($email, $username, $password){
 }
 /*
 function register($email, $username, $password){
+
     $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 
-    $request = array();
+        $request = array();
 
-    $request['type'] = "register";
-    $request['email'] = $email;
-    $request['username'] = $username;
-    $request['password'] = $password;
+	$request['type'] = "register";
+	$request['email'] = $email;
+        $request['username'] = $username;
+        $request['password'] = $password;
+        $response = $client->send_request($request);
+        //$response = $client->publish($request);
+
+        return $response;
+}
+
+function logging($origin, $msg){
+    /**
+     * @param string $origin should be server/file
+     * @param string $msg should be the error message. Function should automatically append a time stamp
+     */
+    $client = new rabbitMQClient("loggingRabbitMQ.ini","logging");
+
+    $request['type'] = "logging";
+    $request['origin'] = $origin;
+    $sentMsg = (string)time() . " : " . $msg;
+    $request['message'] = $sentMsg;
     $response = $client->send_request($request);
-    //$response = $client->publish($request);
 
     return $response;
 }*/

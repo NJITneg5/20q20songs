@@ -52,7 +52,7 @@ function doLogin($email,$username,$password)
 function doRegistration($email, $username, $password){
 	global $mydb;
 
-	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+    $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 	//generate friend code
 	$uniquenum = false;	//check to make sure code is available
@@ -81,12 +81,13 @@ function doRegistration($email, $username, $password){
 
     echo "Successfully created account\n";
 	return true;
+
 }
 
 function requestProcessor($request)
 {
-  echo "received request".PHP_EOL;
-  var_dump($request);
+  //echo "received request".PHP_EOL;
+  //var_dump($request);
   if(!isset($request['type']))
   {
     return "ERROR: unsupported message type";
@@ -110,6 +111,6 @@ $server->process_requests('requestProcessor');
 echo "GroupTestRabbitMQServer END".PHP_EOL;
 exit();
 
-//$mydb= new mysqli('localhost','testUser','12345','testdb');
+//$mydb= new mysqli('localhost','it490','20q20songs','it490');
 ?>
 
