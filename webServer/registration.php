@@ -1,4 +1,5 @@
 <?php require_once('../rabbitMQ/testRabbitMQClient.php'); ?>
+<?php require_once("partials/functions.php") ?>
 
 <?php
     if(isset($_POST["register"])){
