@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title>Bootstrap 5 Example</title>
+    <title>20Q20Songs Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -170,7 +170,8 @@
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
         if($isValid){ //All DB query statements should go within these brackets
 		    login($email, $user, $password);
-            logging("Webserver/Login.php", "Successful login: " . $user . ", " . $email);
+            logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
+            //TODO after the db verifies log in, we need to create a session.
         }
         else{
             logging("WebServer/login.php", "Could not log user in.");
