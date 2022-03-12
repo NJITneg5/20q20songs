@@ -122,13 +122,23 @@
     <div class="row">
         <div class="col-sm-4">
             <h3>How it works</h3>
-            <p>Enter a seed song to put our algorithm in the right direction. </p>
+            <p>Enter a seed song to point our algorithm in the right direction. </p>
             <p>Our Algorithm will ask you questions about what you like about it </p>
             <p>It will then compare to other songs and ask if you like those </p>
             <p>After that is done, you should have a 20 song playlist made with songs that are similar to your seed song and catered to you! </p>
         </div>
         <div class="col-sm-4">
             <h3>Have an Account? Log in.</h3>
+            <button onclick="redirectLogin()" style="width:auto;">Login</button>
+            <script>
+                function redirectLogin(){
+                    location.replace("login.php")
+                }
+            </script>
+            <!--
+
+            We can rework this later to use the modal but I'm just going to us a redirect to the login.php page. -Nate
+
             <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 
             <div id="id01" class="modal text-black-50">
@@ -162,7 +172,7 @@
                         modal.style.display = "none";
                     }
                 }
-            </script>
+            </script>-->
         </div>
         <div class="col-sm-4">
             <h3>Privacy Policy</h3>
