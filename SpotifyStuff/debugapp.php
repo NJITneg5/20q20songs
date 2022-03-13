@@ -54,8 +54,7 @@ $play = $api->getRecommendations([
     'market' => 'ES',
     'seed_artist' => '2Mu5NfyYm8n5iTomuKAEHI',
     'seed_genre' => 'soul',
-    'seed_tracks' => '2GFExyKXf9383tSRSrEHEt',
-    'min_danceability' => '1.0'
+    'seed_tracks' => '2GFExyKXf9383tSRSrEHEt'
 ]);
 
 
