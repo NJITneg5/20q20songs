@@ -16,6 +16,11 @@ function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
   var_dump($request);
+  $myfile = fopen("logs.txt", "a") or die("Unable to open file!");
+  	 fwrite($myfile, "Request Type : " . $request['type']. "\n");
+	 fwrite($myfile, "Origin : " .$request['origin']. "\n");
+	fwrite($myfile, "Error Message : " . $request['message']. "\n");
+	  fclose($myfile);
   if(!isset($request['type']))
   {
     return "ERROR: unsupported message type";
