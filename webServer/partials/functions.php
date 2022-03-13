@@ -34,34 +34,20 @@ function register($email, $username, $password){
 
         return $response;
 }
-*/
-/*
+
 function logging($origin, $msg){
     /**
      * @param string $origin should be server/file
      * @param string $msg should be the error message. Function should automatically append a time stamp
-     *//*
+     */
     $client = new rabbitMQClient("loggingRabbitMQ.ini","logging");
 
     $request['type'] = "logging";
     $request['origin'] = $origin;
-    $sentMsg = (string)time() . " : " . $msg;
+    $t=time();
+    $sentMsg = date("Y-m-d\  h:i:sa",$t). " : " . $msg;
     $request['message'] = $sentMsg;
     $response = $client->send_request($request);
 
     return $response;
 }*/
-/**
- * @param string $code Friend code string to be sent to the DB for comparison
- * @return void
- */
-function sendFriendSearch($code){
-    $client = new rabbitMQClient("loggingRabbitMQ.ini","logging");
-
-    $request['type'] = "FCSearch";
-    $request['code'] = $code;
-    $response = $client->send_request($request);
-
-    //TODO This should then listen for a response from the DB with the information on the User with the given friend code
-    //TODO Work with Nick on this
-}
