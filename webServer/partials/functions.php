@@ -33,7 +33,7 @@ function findFriend($friend)
     return $response;
 }
 
-/*
+
 function register($email, $username, $password){
 
     $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
@@ -65,4 +65,4 @@ function logging($origin, $msg){
     $response = $client->send_request($request);
 
     return $response;
-}*/
+}
