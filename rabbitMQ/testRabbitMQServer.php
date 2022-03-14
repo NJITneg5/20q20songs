@@ -84,10 +84,33 @@ function doRegistration($email, $username, $password){
 
 }
 
+function findFriend($friend){
+	global $mydb;
+
+        $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+	
+	//search by friend code
+	if ($friend[0] == "#"){
+		$query = "SELECT username, friend_code FROM Users WHERE (friend_code = ?);";
+        	$query->bind_param("i", $friend[1-6);
+        	$preResult = $mydb->query($query);
+        	$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+	}
+
+	//search by username
+	else{
+		$query = "SELECT username, friend_code FROM Users WHERE (username like ?);";
+		$query->bind_param("s", %$friend%);
+		$preResult = $mydb->query($query);
+		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+	}
+	return $result;
+}
+
 function requestProcessor($request)
 {
-  //echo "received request".PHP_EOL;
-  //var_dump($request);
+  echo "received request".PHP_EOL;
+  var_dump($request);
   if(!isset($request['type']))
   {
     return "ERROR: unsupported message type";
