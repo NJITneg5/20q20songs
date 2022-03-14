@@ -4,6 +4,7 @@ require_once("partials/functions.php");
 $username = "temp";
 $email = "temp@temp.temp";
 $friendCode = "000000";
+$result = array();
 
 if(isset($_POST["searchSubmit"])){
     $searchFC = null;
@@ -12,7 +13,7 @@ if(isset($_POST["searchSubmit"])){
     if(isset($_POST["searchFC"])){
         $searchFC = $_POST["searchFC"];
         if(strlen($searchFC) == 6){
-		$result = findFreind(int($searchFC));
+		$result = findFriend(int($searchFC));
 		echo $result;
             //TODO work with Nick to get this to return a DB array?
         }
