@@ -121,6 +121,8 @@ function requestProcessor($request)
 	    return doLogin($request['email'],$request['username'],$request['password']);
 	case "register":
 		return doRegistration($request['email'],$request['username'],$request['password']);
+	case "findFriend":
+		return findFriend($request['friend']);
 	case "validate_session":
       		return doValidate($request['sessionId']);
   }

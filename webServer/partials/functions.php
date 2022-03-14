@@ -18,6 +18,21 @@ function login($email, $username, $password)
 
     return $response;
 }
+
+function findFriend($friend)
+{
+    $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
+    $request = array();
+
+    $request['type'] = "findFriend";
+    $request['friend'] = $friend;
+    $response = $client->send_request($request);
+    //$response = $client->publish($request);
+
+    return $response;
+}
+
 /*
 function register($email, $username, $password){
 
