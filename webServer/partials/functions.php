@@ -66,3 +66,22 @@ function logging($origin, $msg){
 
     return $response;
 }
+
+function sendSongs($song, $artist, $genre, $instrumental, $danceable, $length){
+
+    $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+
+    $request = array();
+
+    $request['type'] = "sendSongs";
+    $request['song'] = $song;
+    $request['artist'] = $artist;
+    $request['genre'] = $genre;
+    $request['instrumental'] = $instrumental;
+    $request['danceable'] = $danceable;
+    $request['length'] = $length;
+    $response = $client->send_request($request);
+    //$response = $client->publish($request);
+
+    return $response;
+}
