@@ -112,7 +112,8 @@ function getSession($email, $username){
 	if ($email == null){
 		$query = "SELECT email, username, friend_code FROM Users WHERE (username = '$username');";
                 $preResult = $mydb->query($query);
-                $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		var_dump($result);
                 return $result;
 	}
 
