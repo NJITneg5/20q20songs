@@ -97,6 +97,54 @@ function findFriend($friend){
 	return $result;
 }
 
+/**
+ * @param $song
+ * @param $artist
+ * @param $genre
+ * @param $instrumental
+ * @param $danceable
+ * @param $length
+ * @return string The link to the spotify playlist
+ */
+function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length){
+
+    require_once("../spotify/src/SpotifyWebAPI.php");
+    require_once("../spotify/vendor/autoload.php");
+
+    session_start();
+    $api = new SpotifyWebAPI\SpotifyWebAPI();
+
+    $api->setAccessToken($_SESSION['access']);
+
+    $playlist = $api->createPlaylist([
+            'name' => '20q20Songs Rabbit Playlist'
+    ]);
+
+    $playlistID = $playlist->id;
+
+    $play = $api->getRecommendations([
+        'limit' => '19',
+        'market' => 'ES',
+        'seed_artist' => $artist,
+        'seed_genre' => $genre,
+        'seed_track' => $song,
+        'target_intrumentalness' => $instrumental,
+        'target_danceability' => $danceable,
+        'min_duration_ms' => $length
+    ]);
+
+    foreach ($play as $container) {
+        foreach ($container as $object => $value) {
+            echo $value->id . "\n";
+            $api->addPlaylistTracks($playlistID, $value->id);
+        }
+    }
+
+    $result = $playlist->external_urls->spotify;
+
+    return $result;
+}
+
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
@@ -114,7 +162,10 @@ function requestProcessor($request)
 	case "findFriend":
 		return findFriend($request['friend']);
 	case "validate_session":
-      		return doValidate($request['sessionId']);
+        return doValidate($request['sessionId']);
+    case "sendSongs":
+        return doSendSongs($request['song'],$request['artist'],$request['genre'],$request['instrumental'],$request['danceable'],$request['length']);
+
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed on Nate's VM");
 }
