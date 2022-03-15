@@ -33,6 +33,19 @@ function findFriend($friend)
     return $response;
 }
 
+function getSession($email){
+	
+	$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
+   	$request = array();
+
+   	$request['type'] = "getSession";
+   	$request['email'] = $email;
+   	$response = $client->send_request($request);
+   	//$response = $client->publish($request);
+
+   	return $response;
+}
 
 function register($email, $username, $password){
 

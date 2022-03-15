@@ -169,7 +169,12 @@
 
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
         if($isValid){ //All DB query statements should go within these brackets
-		    login($email, $user, $password);
+		$result = login($email, $user, $password);
+		if ($result == true){
+			$getSession = getSession($email);
+			$_SESSION = $getSession;
+			die(header("Location: profile.php"));
+		}
             logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
             //TODO after the db verifies log in, we need to create a session.
         }
