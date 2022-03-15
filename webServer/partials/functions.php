@@ -1,7 +1,7 @@
 <?php
-require_once('../../rabbitMQ/path.inc');
-require_once('../../rabbitMQ/get_host_info.inc');
-require_once('../../rabbitMQ/rabbitMQLib.inc');
+require_once('../rabbitMQ/path.inc');
+require_once('../rabbitMQ/get_host_info.inc');
+require_once('../rabbitMQ/rabbitMQLib.inc');
 
 function login($email, $username, $password)
 {
