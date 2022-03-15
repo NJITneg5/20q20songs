@@ -171,8 +171,8 @@
         if($isValid){ //All DB query statements should go within these brackets
 		$result = login($email, $user, $password);
 		if ($result == true){
-			$getSession = getSession($email);
-			$_SESSION = $getSession;
+			$getSession = getSession($email, $username);
+			$_SESSION["user"] = $getSession;
 			die(header("Location: profile.php"));
 		}
             logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);

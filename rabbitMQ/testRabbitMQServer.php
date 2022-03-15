@@ -97,16 +97,24 @@ function findFriend($friend){
 	return $result;
 }
 
-function getSession($email){
+function getSession($email, $username){
 	global $mydb;
 
         $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
-        //search by friend code
-        $query = "SELECT email, username, friend_code FROM Users WHERE (email = '$email');";
-        $preResult = $mydb->query($query);
-        $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
-        return $result;
+	//search by friend code
+	if ($username == null){
+        	$query = "SELECT email, username, friend_code FROM Users WHERE (email = '$email');";
+        	$preResult = $mydb->query($query);
+        	$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		return $result;
+	}
+	if ($email == null){
+		$query = "SELECT email, username, friend_code FROM Users WHERE (username = '$username');";
+                $preResult = $mydb->query($query);
+                $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+                return $result;
+	}
 
 }
 
@@ -127,7 +135,7 @@ function requestProcessor($request)
 	case "findFriend":
 		return findFriend($request['friend']);
 	case "getSession":
-		return getSession($request['email']);
+		return getSession($request['email'],$request['username']);
 	case "validate_session":
       		return doValidate($request['sessionId']);
   }

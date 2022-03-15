@@ -37,7 +37,7 @@ if(isset($_POST["searchSubmit"])){
         if(strlen($searchFC) == 6){
 		$result = findFriend($searchFC);
 		var_dump($result);
-		die(header("Location: profile.php?email=$result['email']&username=$result['username']&friend_code=$result['friend_code]");
+		die(header("Location: profile.php?email=$result['email']&username=$result['username']&friend_code=$result['friend_code]"));
             //TODO work with Nick to get this to return a DB array?
         }
     }
