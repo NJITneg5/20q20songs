@@ -9,11 +9,13 @@ if(isset($_POST["questionnaire"])){
     $instrumental = null;
     $danceable = null;
     $length = null;
+    $link = null;
 
-    $isValid = true;
+    $isValid = false;
 
     if(isset($_POST['seedSong'])){
         $song = $_POST['seedSong'];
+        $isValid = true;
     }
     else{
         logging("Webserver/questionnaire.php", "User did not set seed song");
@@ -63,7 +65,7 @@ if(isset($_POST["questionnaire"])){
 
     if(isset($_POST['minLength'])){
         $length = (float)$_POST['minLength'];
-        $length = $song*60000;
+        $length = (int)$length*60000;
 
     }
     else{
@@ -74,10 +76,6 @@ if(isset($_POST["questionnaire"])){
 
     if($isValid) {
         $link = sendSongs($song, $artist, $genre, $instrumental, $danceable, $length);
-    }
-
-    if(isset($link)){
-
     }
 
 }
@@ -300,6 +298,12 @@ if(isset($_POST["questionnaire"])){
 
     <?php if(isset($link)): ?>
         <h3 class="text-primary"><a href="<?php echo($link)?>">Here is a link to your Spotify Playlist</a></h3>
+        <p>Song : <?php echo($song)?></p>
+        <p>Artist : <?php echo($artist)?></p>
+        <p>Genre : <?php echo($genre)?></p>
+        <p>Instrumental : <?php echo($instrumental)?></p>
+        <p>Danceable : <?php echo($danceable)?></p>
+        <p>Length : <?php echo($length)?></p>
     <?php endif; ?>
 
 </div>

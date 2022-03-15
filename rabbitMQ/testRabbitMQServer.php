@@ -98,21 +98,36 @@ function findFriend($friend){
 }
 
 /**
- * @param $song
- * @param $artist
- * @param $genre
- * @param $instrumental
- * @param $danceable
- * @param $length
+ * @param $song string SongID in Spotify, may be updated to an actual song (ex. 7L4G39PVgMfaeHRyi1ML7y)
+ * @param $artist string ArtistID in Spotify, may be updated to an artist (ex. 6mQfAAqZGBzIfrmlZCeaYT)
+ * @param $genre string genre in spotify (ex. rock, pop, jazz)
+ * @param $instrumental string value between 0.0 and 1.0
+ * @param $danceable string value between 0.0 and 1.0
+ * @param $length string large value that is converted from x*60000
  * @return string The link to the spotify playlist
  */
-function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length){
+function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length): string {
 
     require_once("../spotify/src/SpotifyWebAPI.php");
     require_once("../spotify/vendor/autoload.php");
+    require_once("../spotify/config.php");
+
+    $session = create_session();
+    $api = new SpotifyWebAPI\SpotifyWebAPI();
+
+    $state = $session->generateState();
+    $options = [
+        'scope' => [
+            'playlist-read-private',
+            'user-read-private',
+            'playlist-modify-private',
+            'playlist-modify-public',
+        ],
+        'state' => $state,
+    ];
+    $session->getAuthorizeUrl($options);
 
     session_start();
-    $api = new SpotifyWebAPI\SpotifyWebAPI();
 
     $api->setAccessToken($_SESSION['access']);
 
@@ -140,9 +155,7 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
         }
     }
 
-    $result = $playlist->external_urls->spotify;
-
-    return $result;
+    return $playlist->external_urls->spotify;
 }
 
 function requestProcessor($request)
