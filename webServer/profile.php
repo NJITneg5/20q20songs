@@ -13,8 +13,8 @@ if(isset($_POST["searchSubmit"])){
     if(isset($_POST["searchFC"])){
         $searchFC = $_POST["searchFC"];
         if(strlen($searchFC) == 6){
-		$result = findFriend(int($searchFC));
-		echo $result;
+		$result = findFriend($searchFC);
+		var_dump($result);
             //TODO work with Nick to get this to return a DB array?
         }
     }
