@@ -66,6 +66,7 @@ if(isset($_GET["searchSubmit"])) {
     if (isset($_GET['minLength'])) {
         $length = (float)$_GET['minLength'];
         $length = (int)$length * 60000;
+        $length = (string)$length;
 
     } else {
         logging("Webserver/questionnaire.php", "User did not set min length");
