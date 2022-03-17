@@ -23,7 +23,13 @@ $refreshToken = $session->getRefreshToken();
 // Store the access and refresh tokens somewhere. In a session for example
 $_SESSION['access'] = $accessToken;
 $_SESSION['refresh'] = $refreshToken;
-
+echo $accessToken;
+//var_dump($accessToken);
+//var_dump($refreshToken);
+$myfile = fopen("accesstoken.txt", "w") or die("Unable to open file!");
+$txt = "$accessToken";
+fwrite($myfile, $txt);
+fclose($myfile);
 // Send the user along and fetch some data!
 header('Location: fixapp.php');
 die();

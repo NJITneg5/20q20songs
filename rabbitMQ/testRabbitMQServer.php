@@ -107,11 +107,12 @@ function findFriend($friend){
  * @return string The link to the spotify playlist
  */
 function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length): string {
-
+	
     require_once("../spotify/src/SpotifyWebAPI.php");
     require_once("../spotify/vendor/autoload.php");
     require_once("../spotify/config.php");
 
+    /*
     $session = create_session();
     $api = new SpotifyWebAPI\SpotifyWebAPI();
 
@@ -128,8 +129,11 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
     $session->getAuthorizeUrl($options);
 
     session_start();
-
-    $api->setAccessToken($_SESSION['access']);
+*/
+    $api = new SpotifyWebAPI\SpotifyWebAPI();
+$myfile = fopen("../spotify/accesstoken.txt", "r") or die("Unable to open file!");
+ $access = fread($myfile, filesize("../spotify/accesstoken.txt"));
+    $api->setAccessToken($access);
 
     $playlist = $api->createPlaylist([
             'name' => '20q20Songs Rabbit Playlist'
@@ -142,7 +146,7 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
         'market' => 'ES',
         'seed_artist' => $artist,
         'seed_genre' => $genre,
-        'seed_track' => $song,
+        'seed_tracks' => $song,
         'target_intrumentalness' => $instrumental,
         'target_danceability' => $danceable,
         'min_duration_ms' => $length
