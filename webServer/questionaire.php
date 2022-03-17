@@ -1,8 +1,12 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once("partials/functions.php");
 
-if(isset($_POST["questionnaire"])){
+if(isset($_GET["searchSubmit"])) {
     $song = null;
     $artist = null;
     $genre = null;
@@ -13,73 +17,67 @@ if(isset($_POST["questionnaire"])){
 
     $isValid = false;
 
-    if(isset($_POST['seedSong'])){
-        $song = $_POST['seedSong'];
+    if (isset($_GET['seedSong'])) {
+        $song = $_GET['seedSong'];
         $isValid = true;
-    }
-    else{
+    } else {
         logging("Webserver/questionnaire.php", "User did not set seed song");
         echo("You need to enter a Seed song"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if(isset($_POST['seedArtist'])){
-        $artist = $_POST['seedArtist'];
-    }
-    else{
+    if (isset($_GET['seedArtist'])) {
+        $artist = $_GET['seedArtist'];
+    } else {
         logging("Webserver/questionnaire.php", "User did not set seed artist");
         echo("You need to enter a Seed Artist"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if(isset($_POST['seedGenre'])){
-        $genre = $_POST['seedGenre'];
-    }
-    else{
+    if (isset($_GET['seedGenre'])) {
+        $genre = $_GET['seedGenre'];
+    } else {
         logging("Webserver/questionnaire.php", "User did not set seed genre");
         echo("You need to enter a genre"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if(isset($_POST['instrumental'])){
-        $instrumental = (int)$_POST['instrumental'];
-        $instrumental = (float)$instrumental/100.0;
-
-    }
-    else{
+    if (isset($_GET['instrumental'])) {
+        $instrumental = (int)$_GET['instrumental'];
+        $instrumental = (float)$instrumental / 100.0;
+        $instrumental = (string)$instrumental;
+    } else {
         logging("Webserver/questionnaire.php", "User did not set an instrumental value");
         echo("You need to select a value for instrumental"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if(isset($_POST['danceable'])){
-        $danceable = (int)$_POST['danceable'];
-        $danceable = (float)$danceable/100.0;
+    if (isset($_GET['danceable'])) {
+        $danceable = (int)$_GET['danceable'];
+        $danceable = (float)$danceable / 100.0;
+        $danceable = (string)$danceable;
 
-    }
-    else{
+    } else {
         logging("Webserver/questionnaire.php", "User did not set a danceability");
         echo("You need to enter a value for danceability"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if(isset($_POST['minLength'])){
-        $length = (float)$_POST['minLength'];
-        $length = (int)$length*60000;
+    if (isset($_GET['minLength'])) {
+        $length = (float)$_GET['minLength'];
+        $length = (int)$length * 60000;
+        $length = (string)$length;
 
-    }
-    else{
+    } else {
         logging("Webserver/questionnaire.php", "User did not set min length");
         echo("You need to enter a minimum length"); //TODO Bootstrap alerts.
         $isValid = false;
     }
 
-    if($isValid) {
+    if ($isValid) {
         $link = sendSongs($song, $artist, $genre, $instrumental, $danceable, $length);
     }
-
 }
-
 ?>
 
 <html lang="en">
@@ -218,14 +216,14 @@ if(isset($_POST["questionnaire"])){
 
     </style>
 </head>
-<body onload = "onPageLoad()" class = "bg-dark text-white-50">
+<body class = "bg-dark text-white-50">
 <div class="container-fluid p-5 bg-success text-white text-center">
     <h1>20 Questions 20 Songs</h1>
 </div>
 
 <div class="container ">
     <h3>Please answer these questions to help us make a playlist for you:</h3>
-    <form method = "POST" id = "questionnaire">
+    <form method = "GET" id = "questionnaire">
         <label for= "seedSong">Question 1: What song do you want to use as a Seed?</label><br>
         <input type = "text" id= "seedSong" name="seedSong" required/><br>
 
