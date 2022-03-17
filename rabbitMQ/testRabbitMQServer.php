@@ -14,13 +14,13 @@ function doLogin($email,$username,$password)
 	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 	if ($username == null){
-		$query = "select password from Users where email='$email';";
+		$query = "select email, username, friend_code, password from Users where email='$email';";
 		$preResult= $mydb->query($query);
 		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
 		$finalResult= $result['password'];
 	}
 	elseif ($email == null){
-		$query = "select password from Users where username='$username';";
+		$query = "select email, username, friend_code, password from Users where username='$username';";
                 $preResult= $mydb->query($query);
                 $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
                 $finalResult= $result['password'];
@@ -39,7 +39,8 @@ function doLogin($email,$username,$password)
 	}*/
 	if (password_verify($password, $finalResult)){
 		echo "Successful Result\n";
-		return true;
+		unset($result["password"]);
+		return $result;
 	}
 
 	//return false in all other instances
