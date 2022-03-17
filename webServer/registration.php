@@ -1,7 +1,8 @@
-<?php require_once('../rabbitMQ/testRabbitMQClient.php'); ?>
-<?php require_once("partials/functions.php") ?>
+<?php  
 
-<?php
+	require_once("partials/functions.php");
+
+
     if(isset($_POST["register"])){
         $email = null;
         $password = null;
@@ -45,8 +46,9 @@
 	    //TODO Use RabbitMQ to insert the new user data into the DB
 	    //echo "<h2>hello world</h2>";
 	    register($email, $username, $hash);
-        logging("Webserver/registration.php", "Users successfully registered, " . $email . " " . $username);
         die(header("Location:login.php"));
+        logging("Webserver/registration.php", "Users successfully registered, " . $email . " " . $username);
+        
         }
     }
 ?>
