@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 require_once("partials/functions.php");
 
-if(isset($_GET["questionnaire"])) {
+if(isset($_GET["searchSubmit"])) {
     $song = null;
     $artist = null;
     $genre = null;
@@ -45,7 +45,7 @@ if(isset($_GET["questionnaire"])) {
     if (isset($_GET['instrumental'])) {
         $instrumental = (int)$_GET['instrumental'];
         $instrumental = (float)$instrumental / 100.0;
-
+        $instrumental = (string)$instrumental;
     } else {
         logging("Webserver/questionnaire.php", "User did not set an instrumental value");
         echo("You need to select a value for instrumental"); //TODO Bootstrap alerts.
@@ -55,6 +55,7 @@ if(isset($_GET["questionnaire"])) {
     if (isset($_GET['danceable'])) {
         $danceable = (int)$_GET['danceable'];
         $danceable = (float)$danceable / 100.0;
+        $danceable = (string)$danceable;
 
     } else {
         logging("Webserver/questionnaire.php", "User did not set a danceability");
