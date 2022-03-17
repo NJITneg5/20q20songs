@@ -39,7 +39,6 @@ if(isset($_POST["searchSubmit"])){
 		$username = $result["username"];
 		$email = $result["email"];
 		$friendCode = $result["friend_code"];
-		var_dump($result);
 		die(header("Location: profile.php?email=$email&username=$username&friend_code=$friendCode"));
             //TODO work with Nick to get this to return a DB array?
         }

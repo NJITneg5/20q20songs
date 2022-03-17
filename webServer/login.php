@@ -168,22 +168,23 @@
         }
 
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
-        var_dump($isValid);
         
-     // die(header('Location: profile.php'));
+        
+    
         if($isValid){ //All DB query statements should go within these brackets
-		/*$result = */login($email, $user, $password);
+		$result = login($email, $user, $password);
 		
-		$getSession = getSession($email, $user);
-			var_dump($getSession);
-			$_SESSION["user"] = $getSession;
-			
+		if ($result != false) {
+			$_SESSION["user"] = $result;
 		
-		if ($result == true){
-			
-			
+		die(header('Location: profile.php')); 
 		}
-           //logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
+	
+	else {
+			echo ("Invalid Credentials");
+			 logging("Webserver/login.php", "Invalid Credentials");
+		}
+           logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
             //TODO after the db verifies log in, we need to create a session.
         }
         else{
