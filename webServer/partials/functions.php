@@ -3,6 +3,8 @@ require_once('../../rabbitMQ/path.inc');
 require_once('../../rabbitMQ/get_host_info.inc');
 require_once('../../rabbitMQ/rabbitMQLib.inc');
 
+session_start();
+
 function login($email, $username, $password)
 {
     $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
