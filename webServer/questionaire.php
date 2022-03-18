@@ -76,6 +76,7 @@ if(isset($_GET["searchSubmit"])) {
 
     if ($isValid) {
         $link = sendSongs($song, $artist, $genre, $instrumental, $danceable, $length);
+        echo $link;
     }
 }
 ?>
