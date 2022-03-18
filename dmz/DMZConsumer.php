@@ -69,7 +69,7 @@ function requestProcessor($request)
     return array("returnCode" => '0', 'message'=>"Server received request and processed on Nate's VM");
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+$server = new rabbitMQServer("spotify.ini","testServer");
 
 echo "GroupTestRabbitMQServer BEGIN".PHP_EOL;
 $server->process_requests('requestProcessor');

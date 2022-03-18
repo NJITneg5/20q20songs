@@ -68,7 +68,7 @@ function logging($origin, $msg){
 
 function sendSongs($song, $artist, $genre, $instrumental, $danceable, $length){
 
-    $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+    $client = new rabbitMQClient("spotify.ini","testServer");
 
     $request = array();
 
