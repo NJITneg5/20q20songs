@@ -176,15 +176,15 @@
 		
 		if ($result != false) {
 			$_SESSION["user"] = $result;
-		
+		logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
 		die(header('Location: profile.php')); 
 		}
 	
 	else {
 			echo ("Invalid Credentials");
-			 logging("Webserver/login.php", "Invalid Credentials");
+			logging("Webserver/login.php", "Invalid Credentials");
 		}
-           logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
+          
             //TODO after the db verifies log in, we need to create a session.
         }
         else{
