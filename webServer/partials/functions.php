@@ -67,7 +67,7 @@ function register($email, $username, $password){
 }
 
 function logging($origin, $msg){
-    /**
+    /*
      * @param string $origin should be server/file
      * @param string $msg should be the error message. Function should automatically append a time stamp
      */
