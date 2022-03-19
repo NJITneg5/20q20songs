@@ -31,7 +31,7 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
     $playlistID = $playlist->id;
 
     $play = $api->getRecommendations([
-        'limit' => '9',
+        'limit' => '19',
         'market' => 'ES',
         'seed_artist' => $artist,
         'seed_genre' => $genre,
