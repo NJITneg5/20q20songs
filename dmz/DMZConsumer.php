@@ -25,13 +25,13 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
     $api->setAccessToken($access);
 
     $playlist = $api->createPlaylist([
-        'name' => '20q20Songs Rabbit Playlist'
+        'name' => '6q10Songs Rabbit Playlist'
     ]);
 
     $playlistID = $playlist->id;
 
     $play = $api->getRecommendations([
-        'limit' => '19',
+        'limit' => '9',
         'market' => 'ES',
         'seed_artist' => $artist,
         'seed_genre' => $genre,
@@ -40,16 +40,16 @@ function doSendSongs($song, $artist, $genre, $instrumental, $danceable, $length)
         'target_danceability' => $danceable,
         'min_duration_ms' => $length
     ]);
-
+$trackarray = array();
     foreach ($play as $container) {
         foreach ($container as $object => $value) {
-            echo $value->id . "\n";
-            $api->addPlaylistTracks($playlistID, $value->id);
+       $trackarray[] = $value->id;
         }
     }
-
+    var_dump($trackarray);
+    $api->addPlaylistTracks($playlistID, $trackarray);
     $link = $playlist->external_urls->spotify;
-    echo $playlist->external_urls->spotify;
+    var_dump($link);
     return $link;
 }
 
