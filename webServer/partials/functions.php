@@ -1,7 +1,7 @@
 <?php
-require_once('../../rabbitMQ/path.inc');
-require_once('../../rabbitMQ/get_host_info.inc');
-require_once('../../rabbitMQ/rabbitMQLib.inc');
+require_once('../rabbitMQ/path.inc');
+require_once('../rabbitMQ/get_host_info.inc');
+require_once('../rabbitMQ/rabbitMQLib.inc');
 
 session_start();
 
@@ -65,12 +65,11 @@ function register($email, $username, $password){
 
         return $response;
 }
-
+/**
+ * @param string $origin should be server/file
+ * @param string $msg should be the error message. Function should automatically append a time stamp
+ */
 function logging($origin, $msg){
-    /*
-     * @param string $origin should be server/file
-     * @param string $msg should be the error message. Function should automatically append a time stamp
-     */
     $client = new rabbitMQClient("loggingRabbitMQ.ini","logging");
 
     $request['type'] = "logging";
@@ -79,6 +78,25 @@ function logging($origin, $msg){
     $sentMsg = date("Y-m-d\  h:i:sa",$t). " : " . $msg;
     $request['message'] = $sentMsg;
     $response = $client->send_request($request);
+
+    return $response;
+}
+
+function sendSongs($song, $artist, $genre, $instrumental, $danceable, $length){
+
+    $client = new rabbitMQClient("spotify.ini","testServer");
+
+    $request = array();
+
+    $request['type'] = "sendSongs";
+    $request['song'] = $song;
+    $request['artist'] = $artist;
+    $request['genre'] = $genre;
+    $request['instrumental'] = $instrumental;
+    $request['danceable'] = $danceable;
+    $request['length'] = $length;
+    $response = $client->send_request($request);
+    //$response = $client->publish($request);
 
     return $response;
 }

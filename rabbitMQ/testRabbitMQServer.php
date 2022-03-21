@@ -139,7 +139,7 @@ function requestProcessor($request)
 	case "getSession":
 		return getSession($request['email'],$request['username']);
 	case "validate_session":
-      		return doValidate($request['sessionId']);
+        return doValidate($request['sessionId']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed on Nate's VM");
 }

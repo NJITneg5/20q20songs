@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>20Q20Songs Profile</title>
+    <title>20Q20Songs Questionnaire</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -105,47 +104,187 @@
                 width: 100%;
             }
         }
+        .slideContainer {
+            width: 100%; /* Width of the outside container */
+        }
+
+        /* The slider itself */
+        .slider {
+            width: 100%; /* Full-width */
+            height: 10px; /* Specified height */
+            background: #d3d3d3; /* Grey background */
+            outline: none; /* Remove outline */
+            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px; /* Slider handle height */
+            background: #04AA6D; /* Green background */
+            cursor: pointer; /* Cursor on hover */
+        }
+
     </style>
 </head>
 <body onload = "onPageLoad()" class = "bg-dark text-white-50">
 <div class="container-fluid p-5 bg-success text-white text-center">
     <h1>20 Questions 20 Songs</h1>
-    <h3>Profile</h3>
-    <button onclick="redirectLogout()" style="width:auto;">Logout</button>
-    <script>
-        function redirectLogout(){
-            location.replace("logout.php")
-        }
-    </script>
 </div>
-<div class="container-fluid p-5 bg-gradient text-white-50">
-    <!--This page is so that I can test out html elements without having to worry about php. -Nate-->
-    <p>Username:</p>
-    <p>Email: </p>
-    <p>Friend Code: </p>
 
-    <form method="POST" id="FriendSearch">
-        <label for="searchFC">Enter the friend code you would like to search for: (6-digit number)</label>
-        <input id="searchFC" name="searchFC" type="text">
-        <input type="submit" name="searchSubmit" value="Search">
+<div class="container ">
+    <h3>Please answer these questions to help us make a playlist for you:</h3>
+    <form method = "POST" id = "questionnaire">
+        <label for= "seedSong">Question 1: What song do you want to use as a Seed?</label><br>
+        <input type = "text" id= "seedSong" name="seedSong" required/><br>
+
+        <label for= "seedArtist">Question 2: What Artist do you want to use as a Seed?</label><br>
+        <input type = "text" id= "seedArtist" name="seedArtist" required/><br>
+
+        <label for= "seedGenre">Question 3: What genre would you like?</label><br>
+        <input type = "text" id= "seedGenre" name="seedGenre" required/><br>
+
+        <label for= "instrumental">Question 4: Do you want songs that are heavily instrumental? </label><br>
+        <div class="slideContainer">
+            <input type = "range" min="0" max="100" value="50" class="slider" id= "instrumental" name="instrumental" required/>
+        </div>
+            <p> Value: <span id="instrumentalOutput"></span></p><br>
+
+        <label for= "danceable">Question 5: Do you want songs that are danceable?</label><br>
+        <div class="slideContainer">
+            <input type = "range" min="0" max="100" value="50" class="slider" id= "danceable" name="danceable" required/>
+        </div>
+        <p> Value: <span id="danceableOutput"></span></p><br>
+
+        <label for= "minLength">Question 6: What is the minimum length that you want?</label><br>
+        <input type = "text" id= "minLength" name="minLength" required/><br>
+        <!-- We will add more later...
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
+
+                <label for= "q20">Question 20: BLAH</label><br>
+                <input type = "" id= "q20" name="q20" required/><br>
+        -->
+        <input type="submit" name="searchSubmit" value="Search" class="btn btn-primary">
+        <input type="reset" value="Clear Form" class="btn btn-warning" >
     </form>
 </div>
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-4">
             <h3>How it works</h3>
-            <p>Enter a seed song to point our algorithm in the right direction. </p>
+            <p>Enter a seed song to put our algorithm in the right direction. </p>
             <p>Our Algorithm will ask you questions about what you like about it </p>
             <p>It will then compare to other songs and ask if you like those </p>
             <p>After that is done, you should have a 20 song playlist made with songs that are similar to your seed song and catered to you! </p>
         </div>
-        <div class="col-sm-5">
+        <!--<div class="col-sm-4">
+            <h3>Have an Account? Log in.</h3>
+            <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+            <div id="id01" class="modal text-black-50">
+
+                <form class="modal-content animate" action="/login.php" method="post">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
+
+                    <div class="container">
+                        <h1>Log In</h1>
+                        <input type="text" placeholder="Username" name="uname" required>
+
+                        <input type="password" placeholder="Password" name="psw" required>
+
+                        <button type="submit">Login</button>
+                        <label>
+                            <input type="checkbox" checked="checked" name="remember"> Remember me
+                        </label>
+                    </div>
+                </form>
+            </div>
+
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+        </div>-->
+        <div class="col-sm-4">
             <h3>Privacy Policy</h3>
             <p>Sample stuff that would become privacy stuff later</p>
         </div>
     </div>
 </div>
+
+<script>
+    var instrumentalSlider = document.getElementById("instrumental");
+    var instrumentalOutput = document.getElementById("instrumentalOutput");
+    instrumentalOutput.innerHTML = instrumentalSlider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    instrumentalSlider.oninput = function() {
+        instrumentalOutput.innerHTML = this.value;
+    }
+
+    var danceableSlider = document.getElementById("danceable");
+    var danceableOutput = document.getElementById("danceableOutput");
+    danceableOutput.innerHTML = danceableSlider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    danceableSlider.oninput = function() {
+        danceableOutput.innerHTML = this.value;
+    }
+</script>
 
 </body>
 </html>

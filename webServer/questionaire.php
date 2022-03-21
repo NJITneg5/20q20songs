@@ -1,6 +1,89 @@
+<?php
+
+/*ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+*/
+require_once("partials/functions.php");
+
+if(isset($_GET["searchSubmit"])) {
+    $song = null;
+    $artist = null;
+    $genre = null;
+    $instrumental = null;
+    $danceable = null;
+    $length = null;
+    $link = null;
+
+    $isValid = false;
+
+    if (isset($_GET['seedSong'])) {
+        $song = $_GET['seedSong'];
+        $isValid = true;
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set seed song");
+        echo("You need to enter a Seed song"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if (isset($_GET['seedArtist'])) {
+        $artist = $_GET['seedArtist'];
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set seed artist");
+        echo("You need to enter a Seed Artist"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if (isset($_GET['seedGenre'])) {
+        $genre = $_GET['seedGenre'];
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set seed genre");
+        echo("You need to enter a genre"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if (isset($_GET['instrumental'])) {
+        $instrumental = (int)$_GET['instrumental'];
+        $instrumental = (float)$instrumental / 100.0;
+        $instrumental = (string)$instrumental;
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set an instrumental value");
+        echo("You need to select a value for instrumental"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if (isset($_GET['danceable'])) {
+        $danceable = (int)$_GET['danceable'];
+        $danceable = (float)$danceable / 100.0;
+        $danceable = (string)$danceable;
+
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set a danceability");
+        echo("You need to enter a value for danceability"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if (isset($_GET['minLength'])) {
+        $length = (float)$_GET['minLength'];
+        $length = (int)$length * 60000;
+        $length = (string)$length;
+
+    } else {
+        logging("Webserver/questionnaire.php", "User did not set min length");
+        echo("You need to enter a minimum length"); //TODO Bootstrap alerts.
+        $isValid = false;
+    }
+
+    if ($isValid) {
+        $link = sendSongs($song, $artist, $genre, $instrumental, $danceable, $length);
+        //var_dump($link);
+    }
+}
+?>
+
 <html lang="en">
 <head>
-    <title>Bootstrap 5 Example</title>
+    <title>20Q20Songs Questionnaire</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -104,77 +187,124 @@
                 width: 100%;
             }
         }
+        .slideContainer {
+            width: 100%; /* Width of the outside container */
+        }
+
+        /* The slider itself */
+        .slider {
+            width: 100%; /* Full-width */
+            height: 10px; /* Specified height */
+            background: #d3d3d3; /* Grey background */
+            outline: none; /* Remove outline */
+            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px; /* Slider handle height */
+            background: #04AA6D; /* Green background */
+            cursor: pointer; /* Cursor on hover */
+        }
+
     </style>
 </head>
-<body onload = "onPageLoad()" class = "bg-dark text-white-50">
+<body class = "bg-dark text-white-50">
 <div class="container-fluid p-5 bg-success text-white text-center">
     <h1>20 Questions 20 Songs</h1>
 </div>
 
-<div>
+<div class="container ">
     <h3>Please answer these questions to help us make a playlist for you:</h3>
-    <form> <!-- We Need to come up with our questions-->
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+    <form method = "GET" id = "questionnaire">
+        <label for= "seedSong">Question 1: What song do you want to use as a Seed?</label><br>
+        <input type = "text" id= "seedSong" name="seedSong" required/><br>
 
-        <label for= "q2">Question 2: BLAH</label><br>
-        <input type = "" id= "q2" name="q2" required/><br>
+        <label for= "seedArtist">Question 2: What Artist do you want to use as a Seed?</label><br>
+        <input type = "text" id= "seedArtist" name="seedArtist" required/><br>
 
-        <label for= "q3">Question 3: BLAH</label><br>
-        <input type = "" id= "q3" name="q3" required/><br>
+        <label for= "seedGenre">Question 3: What genre would you like?</label><br>
+        <input type = "text" id= "seedGenre" name="seedGenre" required/><br>
 
-        <label for= "q4">Question 4: BLAH</label><br>
-        <input type = "" id= "q4" name="q4" required/><br>
+        <label for= "instrumental">Question 4: Do you want songs that are heavily instrumental? </label><br>
+        <div class="slideContainer">
+            <input type = "range" min="0" max="100" value="50" class="slider" id= "instrumental" name="instrumental" required/>
+        </div>
+        <p> Value: <span id="instrumentalOutput"></span></p><br>
 
-        <label for= "q5">Question 5: BLAH</label><br>
-        <input type = "" id= "q5" name="q5" required/><br>
+        <label for= "danceable">Question 5: Do you want songs that are danceable?</label><br>
+        <div class="slideContainer">
+            <input type = "range" min="0" max="100" value="50" class="slider" id= "danceable" name="danceable" required/>
+        </div>
+        <p> Value: <span id="danceableOutput"></span></p><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+        <label for= "minLength">Question 6: What is the minimum length that you want?(3.5 = 3mins 30secs)</label><br>
+        <input type = "text" id= "minLength" name="minLength" required/><br>
+        <!-- We will add more later...
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
+                <label for= "q1">Question 1: BLAH</label><br>
+                <input type = "" id= "q1" name="q1" required/><br>
 
-        <label for= "q1">Question 1: BLAH</label><br>
-        <input type = "" id= "q1" name="q1" required/><br>
-
-        <label for= "q20">Question 20: BLAH</label><br>
-        <input type = "" id= "q20" name="q20" required/><br>
-
+                <label for= "q20">Question 20: BLAH</label><br>
+                <input type = "" id= "q20" name="q20" required/><br>
+        -->
+        <input type="submit" name="searchSubmit" value="Search" class="btn btn-primary">
+        <input type="reset" value="Clear Form" class="btn btn-warning" >
     </form>
+
+    <?php if(isset($link)): ?>
+        <h3 class="text-primary"><a href="<?php echo($link)?>">Here is a link to your Spotify Playlist</a></h3>
+        <p>Song : <?php echo($song)?></p>
+        <p>Artist : <?php echo($artist)?></p>
+        <p>Genre : <?php echo($genre)?></p>
+        <p>Instrumental : <?php echo($instrumental)?></p>
+        <p>Danceable : <?php echo($danceable)?></p>
+        <p>Length : <?php echo($length)?></p>
+    <?php endif; ?>
+
 </div>
 
 <div class="container mt-5">
@@ -186,7 +316,7 @@
             <p>It will then compare to other songs and ask if you like those </p>
             <p>After that is done, you should have a 20 song playlist made with songs that are similar to your seed song and catered to you! </p>
         </div>
-        <div class="col-sm-4">
+        <!--<div class="col-sm-4">
             <h3>Have an Account? Log in.</h3>
             <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 
@@ -222,7 +352,7 @@
                     }
                 }
             </script>
-        </div>
+        </div>-->
         <div class="col-sm-4">
             <h3>Privacy Policy</h3>
             <p>Sample stuff that would become privacy stuff later</p>
@@ -230,6 +360,25 @@
     </div>
 </div>
 
+<script>
+    var instrumentalSlider = document.getElementById("instrumental");
+    var instrumentalOutput = document.getElementById("instrumentalOutput");
+    instrumentalOutput.innerHTML = instrumentalSlider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    instrumentalSlider.oninput = function() {
+        instrumentalOutput.innerHTML = this.value;
+    }
+
+    var danceableSlider = document.getElementById("danceable");
+    var danceableOutput = document.getElementById("danceableOutput");
+    danceableOutput.innerHTML = danceableSlider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    danceableSlider.oninput = function() {
+        danceableOutput.innerHTML = this.value;
+    }
+</script>
+
 </body>
 </html>
-<?php
