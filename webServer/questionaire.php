@@ -1,9 +1,9 @@
 <?php
 
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+*/
 require_once("partials/functions.php");
 
 if(isset($_GET["searchSubmit"])) {
@@ -76,7 +76,7 @@ if(isset($_GET["searchSubmit"])) {
 
     if ($isValid) {
         $link = sendSongs($song, $artist, $genre, $instrumental, $danceable, $length);
-        var_dump($link);
+        //var_dump($link);
     }
 }
 ?>
