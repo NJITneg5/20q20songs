@@ -14,13 +14,13 @@ function doLogin($email,$username,$password)
 	$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 	if ($username == null){
-		$query = "select password from Users where email='$email';";
+		$query = "select email, username, friend_code, password from Users where email='$email';";
 		$preResult= $mydb->query($query);
 		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
 		$finalResult= $result['password'];
 	}
 	elseif ($email == null){
-		$query = "select password from Users where username='$username';";
+		$query = "select email, username, friend_code, password from Users where username='$username';";
                 $preResult= $mydb->query($query);
                 $result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
                 $finalResult= $result['password'];
@@ -39,7 +39,8 @@ function doLogin($email,$username,$password)
 	}*/
 	if (password_verify($password, $finalResult)){
 		echo "Successful Result\n";
-		return true;
+		unset($result["password"]);
+		return $result;
 	}
 
 	//return false in all other instances
@@ -97,6 +98,28 @@ function findFriend($friend){
 	return $result;
 }
 
+function getSession($email, $username){
+	global $mydb;
+
+        $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+
+	//search by friend code
+	if ($username == null){
+        	$query = "SELECT email, username, friend_code FROM Users WHERE (email = '$email');";
+        	$preResult = $mydb->query($query);
+        	$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		return $result;
+	}
+	if ($email == null){
+		$query = "SELECT email, username, friend_code FROM Users WHERE (username = '$username');";
+                $preResult = $mydb->query($query);
+		$result= mysqli_fetch_array($preResult, MYSQLI_ASSOC);
+		var_dump($result);
+                return $result;
+	}
+
+}
+
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
@@ -113,6 +136,8 @@ function requestProcessor($request)
 		return doRegistration($request['email'],$request['username'],$request['password']);
 	case "findFriend":
 		return findFriend($request['friend']);
+	case "getSession":
+		return getSession($request['email'],$request['username']);
 	case "validate_session":
         return doValidate($request['sessionId']);
   }

@@ -168,14 +168,29 @@
         }
 
         //Everything beyond here is somewhat temporary until we get Rabbit up and running.
+        
+        
+    
         if($isValid){ //All DB query statements should go within these brackets
-		    login($email, $user, $password);
-            logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
+		$result = login($email, $user, $password);
+		
+		if ($result != false) {
+			$_SESSION["user"] = $result;
+		logging("Webserver/login.php", "Successful login: " . $user . ", " . $email);
+		die(header('Location: profile.php')); 
+		}
+	
+	else {
+			echo ("Invalid Credentials");
+			logging("Webserver/login.php", "Invalid Credentials");
+		}
+          
             //TODO after the db verifies log in, we need to create a session.
         }
         else{
             logging("WebServer/login.php", "Could not log user in.");
             //echo("There was a validation issue"); //TODO This can be updated to use Bootstrap
         }
+
     }
 ?>

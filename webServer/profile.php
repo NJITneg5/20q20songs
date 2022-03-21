@@ -6,6 +6,28 @@ $email = "temp@temp.temp";
 $friendCode = "000000";
 $result = array();
 
+if(isset($_GET["email"])){
+	$email = $_GET["email"];
+}
+elseif(isset($_SESSION["user"]["email"])){
+	$email = $_SESSION["user"]["email"];
+}
+if(isset($_GET["username"])){
+        $username = $_GET["username"];
+}
+elseif(isset($_SESSION["user"]["username"])){
+        $username = $_SESSION["user"]["username"];
+}
+
+if(isset($_GET["friend_code"])){
+        $friendCode = $_GET["friend_code"];
+}
+elseif(isset($_SESSION["user"]["friend_code"])){
+        $friendCode = $_SESSION["user"]["friend_code"];
+}
+
+
+
 if(isset($_POST["searchSubmit"])){
     $searchFC = null;
     $isValid = false;
@@ -14,7 +36,10 @@ if(isset($_POST["searchSubmit"])){
         $searchFC = $_POST["searchFC"];
         if(strlen($searchFC) == 6){
 		$result = findFriend($searchFC);
-		var_dump($result);
+		$username = $result["username"];
+		$email = $result["email"];
+		$friendCode = $result["friend_code"];
+		die(header("Location: profile.php?email=$email&username=$username&friend_code=$friendCode"));
             //TODO work with Nick to get this to return a DB array?
         }
     }
