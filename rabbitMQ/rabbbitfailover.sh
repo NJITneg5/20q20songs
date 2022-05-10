@@ -18,12 +18,16 @@ do
 	pingcheck
 	echo "main system still running"
 	if [ $check == 0 ];then
+<<<<<<< HEAD
 		scp ../webServer/partials/testRabbitMQ.ini it490@172.24.205.67:/home/it490/git/20q20songs/webServer/partials
                 scp ../webServer/partials/nickLoggingRabbitMQ.ini it490@172.24.205.67:/home/it490/git/20q20songs/webServer/partials
 		#scp ../webServer/partials/testRabbitMQ.ini
 		#scp ../webServer/partials/nateLoggingRabbitMQ.ini
 		scp ../webServer/partials/testRabbitMQ.ini anthony@172.24.187.221:/home/anthony/Desktop/20q20songs-working/webServer/partials
 		scp ../webServer/partials/anthonyLoggingRabbitMQ.ini anthony@172.24.187.221:/home/anthony/Desktop/20q20songs-working/webServer/partials	
+=======
+		#distribute new ini files to machines	
+>>>>>>> 340e18a829c436a4343f613150d45533fc86edc9
 		flag=0
 		
 	else

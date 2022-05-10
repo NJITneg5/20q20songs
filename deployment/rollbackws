@@ -1,0 +1,8 @@
+#!/bin/bash
+Version = 1
+
+rsync -avh /home/deployment /var/www/html --delete
+#ssh to nate's deployment server, have to roll back to the previous version, rsync has functionality for it i think
+sudo service apache2 restart
+#rolling back to previous ver
+echo "rolling back to 
